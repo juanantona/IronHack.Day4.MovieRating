@@ -1,18 +1,27 @@
 require "imdb"
 require "Pry"
 
-class IMDBSearch
+class IMDBRating
 
+  def initialize
+   @movies = []
+   @search = []
+   @rating = []
+  end	
+  
+  def process_file
+  	return @movies = IO.read("movies.txt").split("\n")
+  end	
 
-  def search
-    IO.write("new.txt", Imdb::Search.new("Ghostbusters").movies)
-    puts movie = Imdb::Movie.new("0087332").rating
-    
-    binding.pry
+  def rating
+    process_file.each do |movie|
+       @rating << Imdb::Movie.new("#{Imdb::Search.new(movie).movies[0].id}").rating
+    end
   end
+  
 
 end
 
-IMDBSearch.new.search	
+IMDBRating.new.rating	
 
 
